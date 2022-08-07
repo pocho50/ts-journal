@@ -37,6 +37,11 @@ const handleCreateEntry = (entry: Entry) => {
   localStorage.setItem("entries", JSON.stringify(entries));
 };
 
+const handleRemoveEntry = (entry: Entry) => {
+  entries.splice(entries.findIndex(_entry => _entry.id == entry.id), 1)
+  localStorage.setItem("entries", JSON.stringify(entries));
+}
+
 </script>
 
 <template>
@@ -45,7 +50,7 @@ const handleCreateEntry = (entry: Entry) => {
     <EntryEditor @@create="handleCreateEntry" />
     <ul>
       <li v-for="entry in entries" :key="entry.id">
-        <EntryCard :entry="entry" />
+        <EntryCard @@delete="handleRemoveEntry" :entry="entry" />
       </li>
     </ul>
   </main>

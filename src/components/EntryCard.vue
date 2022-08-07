@@ -4,12 +4,22 @@ import UseEmojis from "@/composables/UseEmojis";
 import type Entry from "@/types/Entry";
 import { userInjectionKey } from "@/injectionKeys";
 import { inject } from "vue";
+import DeletedIcon from "@/assets/icons/delete.svg";
 
 const user = inject(userInjectionKey);
 const { findEmoji } = UseEmojis();
 defineProps<{
   entry: Entry;
 }>();
+
+// events
+const emit = defineEmits<{
+  (e: "@delete", entry: Entry): void;
+}>();
+
+const handleDelete = (entry: Entry) => {
+  emit("@delete", entry);
+};
 </script>
 <template>
   <div class="entry-card">
@@ -21,6 +31,7 @@ defineProps<{
       <DateDisplay :date="entry.createdAt" class="mr-2" />
       |
       <span class="ml-2">{{ user?.username || "anonymous" }}</span>
+      <DeletedIcon style="cursor:pointer" @click="handleDelete(entry)"></DeletedIcon>
     </div>
   </div>
 </template>
