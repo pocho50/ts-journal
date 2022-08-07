@@ -6,17 +6,37 @@ import { reactive, provide, inject } from "vue";
 import type User from "./types/User";
 import type Entry from "./types/Entry";
 import { userInjectionKey } from "./injectionKeys";
-const entries: Entry[] = reactive([]);
+
+let entries: Entry[] = reactive([]);
+
+const localEntries: string | null = localStorage.getItem("entries") 
+
+if (typeof localEntries === 'string') {
+    entries = reactive(JSON.parse(localEntries).map((x: Entry) => {
+      return {
+        id: x.id,
+        body: x.body,
+        emoji: x.emoji,
+        createdAt: new Date(x.createdAt),
+        userId: x.userId
+      }
+
+    }))
+}
+
+
 const user: User = reactive({
   id: 1,
-  username: "danielkelly_io",
+  username: "pocho",
   settings: [],
 });
 provide(userInjectionKey, user);
 
 const handleCreateEntry = (entry: Entry) => {
   entries.unshift(entry);
+  localStorage.setItem("entries", JSON.stringify(entries));
 };
+
 </script>
 
 <template>

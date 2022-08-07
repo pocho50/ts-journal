@@ -10,9 +10,7 @@ export default defineComponent({
       return formatRelative(this.date, Date.now());
     },
   },
-  mounted() {
-    this.$http("https://myendpoint.com");
-  },
+
 });
 </script>
 <template>
