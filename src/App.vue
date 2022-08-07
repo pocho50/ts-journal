@@ -12,7 +12,7 @@ let entries: Entry[] = reactive([]);
 const localEntries: string | null = localStorage.getItem("entries") 
 
 if (typeof localEntries === 'string') {
-    entries = reactive(JSON.parse(localEntries).map((x: Entry) => {
+  entries.push( ...(JSON.parse(localEntries).map((x: Entry) => {
       return {
         id: x.id,
         body: x.body,
@@ -21,9 +21,9 @@ if (typeof localEntries === 'string') {
         userId: x.userId
       }
 
-    }))
+  })))
+  
 }
-
 
 const user: User = reactive({
   id: 1,
